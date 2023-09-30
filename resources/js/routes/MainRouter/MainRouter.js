@@ -1,4 +1,4 @@
-import React, { lazy } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
 	BrowserRouter as Router,
@@ -9,7 +9,7 @@ import {
 
 //components
 const TasksList = lazy(() => import('../../pages/list/List.jsx'));
-// const RecoverAccount = lazy(() => import("../../../pages/guest/Login/RecoverAccount/RecoverAccount"));
+const CreateCard = lazy(() => import('../../pages/createCard/CreateCard.jsx'));
 // const RecoveryCode = lazy(() => import("../../../pages/guest/Login/RecoveryCode/RecoveryCode"));
 // const VerificationPassword = lazy (() => import ("../../../pages/guest/Login/VerificationPassword/VerificationPassword"));
 
@@ -18,7 +18,22 @@ const MainRoute = () => {
 		<main>
 			<Router>
 				<Routes>
-					<Route path="/" element={<TasksList />} />
+					<Route
+						path="/"
+						element={
+							<Suspense>
+								<TasksList />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/task/create"
+						element={
+							<Suspense>
+								<CreateCard />
+							</Suspense>
+						}
+					/>
 					<Route path="*" element={<Navigate to="/" />} />
 				</Routes>
 			</Router>
