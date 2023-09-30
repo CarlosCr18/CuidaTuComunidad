@@ -6,6 +6,7 @@ export const FormSelect = ({
 	registerTitle,
 	options = [],
 	defaultOption = 'Selecciona una opcion',
+	...rest
 }) => {
 	return (
 		<div className="field">
@@ -13,7 +14,11 @@ export const FormSelect = ({
 				<label className="label">
 					<strong>{title}</strong>
 				</label>
-				<select className="input" {...register(registerTitle)}>
+				<select
+					className="input"
+					{...register(registerTitle)}
+					{...rest}
+				>
 					<option value="">{defaultOption}</option>
 					{options &&
 						options.length > 0 &&

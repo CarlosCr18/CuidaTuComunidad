@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Card } from '../../components/Card/Card';
 import './List.scss';
 import { useNavigate } from 'react-router-dom';
+import { FilterAndSearch } from '../../components/FilterAndSearch/FilterAndSearch';
 const ACTION_BUTTONS = {
 	LIKE: 'Dar me gusta',
 	EDIT: 'Editar',
@@ -10,6 +11,8 @@ const ACTION_BUTTONS = {
 
 function TasksList() {
 	const navigate = useNavigate();
+	const [search, setSearch] = useState('');
+	const [MXState, setMXState] = useState('');
 	const [isReady, setIsReady] = useState(false);
 	const cards = [
 		{
@@ -92,6 +95,12 @@ function TasksList() {
 					Crear tarea
 				</button>
 			</div>
+			<FilterAndSearch
+				setSearch={setSearch}
+				setState={setMXState}
+				search={search}
+				state={MXState}
+			/>
 			{isReady ? (
 				<div className="listContainer">
 					{cards && cards.length > 0 ? (
