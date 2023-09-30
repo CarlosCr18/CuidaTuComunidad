@@ -1,0 +1,34 @@
+.field {
+    .input-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 4px;
+        align-items: center;
+        justify-content: space-between;
+
+        .label {
+            flex: 1 0 16px;
+            font-size: 14px;
+        }
+
+        .input {
+            flex: 1 0 90%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    }
+
+    .input-error-text {
+        color: #E2374C;
+        font-size: 10px;
+        line-height: 12px;
+        display: 'block';
+        margin: 4px 6px;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+    }
+}

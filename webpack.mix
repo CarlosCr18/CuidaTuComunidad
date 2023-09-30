@@ -26,3 +26,6 @@ mix.js('resources/js/routes/MainRouter/MainRouter.js', 'public/js/pages/MainRout
 
 mix.copyDirectory('resources/js/assets/media', 'public/images');
 mix.disableNotifications();
+mix.override((webpackConfig) => {
+    webpackConfig.resolve.extensions.push('.js');
+});
