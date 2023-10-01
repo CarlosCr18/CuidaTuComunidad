@@ -9,7 +9,7 @@ const ACTION_BUTTONS = {
 	DELETE: 'Borrar',
 };
 
-function TasksList() {
+function TasksList({ likedTasks, setLikedTasks }) {
 	const navigate = useNavigate();
 	const {
 		tasks,
@@ -20,8 +20,6 @@ function TasksList() {
 		setSearch,
 		mutateAsync,
 		error,
-		likedTasks,
-		setLikedTasks,
 	} = useTasks();
 
 	const handleCreateTask = () => {

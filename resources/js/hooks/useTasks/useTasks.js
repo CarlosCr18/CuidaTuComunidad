@@ -7,7 +7,6 @@ export const useTasks = (fetchOnMount = true) => {
 	const [search, setSearch] = useState('');
 	const [MXState, setMXState] = useState('');
 	const [Error, setError] = useState(null);
-	const [likedTasks, setLikedTasks] = useState([]);
 
 	const useGetTasks = useCallback(
 		async (callbackFunction) => {
@@ -53,7 +52,5 @@ export const useTasks = (fetchOnMount = true) => {
 		setMXState,
 		Error,
 		mutateAsync: useGetTasks,
-		likedTasks,
-		setLikedTasks,
 	};
 };

@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
 	BrowserRouter as Router,
@@ -10,10 +10,9 @@ import {
 //components
 const TasksList = lazy(() => import('../../pages/list/List.jsx'));
 const CreateCard = lazy(() => import('../../pages/createCard/CreateCard.jsx'));
-// const RecoveryCode = lazy(() => import("../../../pages/guest/Login/RecoveryCode/RecoveryCode"));
-// const VerificationPassword = lazy (() => import ("../../../pages/guest/Login/VerificationPassword/VerificationPassword"));
 
 const MainRoute = () => {
+	const [likedTasks, setLikedTasks] = useState([]);
 	return (
 		<main>
 			<Router>
@@ -22,7 +21,10 @@ const MainRoute = () => {
 						path="/"
 						element={
 							<Suspense>
-								<TasksList />
+								<TasksList
+									likedTasks={likedTasks}
+									setLikedTasks={setLikedTasks}
+								/>
 							</Suspense>
 						}
 					/>
