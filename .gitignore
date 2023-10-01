@@ -9,6 +9,7 @@
 /public/.js
 /public/hot
 /vendor
+composer.lock
 .env
 .env.backup
 .env.production

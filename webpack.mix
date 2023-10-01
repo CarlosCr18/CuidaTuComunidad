@@ -37,7 +37,6 @@ mix.js('resources/js/app.js', 'public/js')
 
 mix.js('resources/js/routes/MainRouter/MainRouter.jsx', 'public/js/pages/MainRouter');
 
-mix.copyDirectory('resources/js/assets/media', 'public/images');
 mix.disableNotifications();
 mix.override((webpackConfig) => {
     webpackConfig.resolve.extensions.push('.jsx');
