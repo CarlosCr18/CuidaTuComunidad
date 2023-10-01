@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import { Card } from '../../components/Card/Card';
 import './List.scss';
 import { useNavigate } from 'react-router-dom';
 import { FilterAndSearch } from '../../components/FilterAndSearch/FilterAndSearch';
+import { useTasks } from '../../hooks/useTasks/useTasks.js';
 const ACTION_BUTTONS = {
 	LIKE: 'Dar me gusta',
 	EDIT: 'Editar',
@@ -11,73 +11,18 @@ const ACTION_BUTTONS = {
 
 function TasksList() {
 	const navigate = useNavigate();
-	const [search, setSearch] = useState('');
-	const [MXState, setMXState] = useState('');
-	const [isReady, setIsReady] = useState(false);
-	const cards = [
-		{
-			title: 'Titulo',
-			description: 'descripcion',
-			date: 'card.date',
-			state: 'state',
-			creator: 'creator',
-			likes: 0,
-		},
-		{
-			title: 'Titulo',
-			description: 'descripcion',
-			date: 'card.date',
-			state: 'state',
-			creator: 'creator',
-			likes: 200,
-		},
-		{
-			title: 'Titulo',
-			description: 'descripcion',
-			date: 'card.date',
-			state: 'state',
-			creator: 'creator',
-			likes: 200,
-		},
-		{
-			title: 'Titulo',
-			description: 'descripcion',
-			date: 'card.date',
-			state: 'state',
-			creator: 'creator',
-			likes: 200,
-		},
-		{
-			title: 'Titulo',
-			description: 'descripcion',
-			date: 'card.date',
-			state: 'state',
-			creator: 'creator',
-			likes: 200,
-		},
-		{
-			title: 'Titulo',
-			description: 'descripcion',
-			date: 'card.date',
-			state: 'state',
-			creator: 'creator',
-			likes: 200,
-		},
-		{
-			title: 'Titulo',
-			description: 'descripcion',
-			date: 'card.date',
-			state: 'state',
-			creator: 'creator',
-			likes: 200,
-		},
-	];
-
-	useEffect(() => {
-		setTimeout(() => {
-			setIsReady(true);
-		}, 1000);
-	}, [setIsReady]);
+	const {
+		tasks,
+		loading,
+		MXState,
+		setMXState,
+		search,
+		setSearch,
+		mutateAsync,
+		error,
+		likedTasks,
+		setLikedTasks,
+	} = useTasks();
 
 	const handleCreateTask = () => {
 		navigate('/task/create');
@@ -101,14 +46,15 @@ function TasksList() {
 				search={search}
 				state={MXState}
 			/>
-			{isReady ? (
+			{!loading ? (
 				<div className="listContainer">
-					{cards && cards.length > 0 ? (
-						cards.map((card, index) => {
+					{tasks && tasks.length > 0 ? (
+						tasks.map((card, index) => {
 							console.log({ card });
 							return (
 								<Card
 									key={`${card.title}_${index}`}
+									id={card.id}
 									title={card.title}
 									description={card.description}
 									date={card.date}
@@ -118,6 +64,9 @@ function TasksList() {
 									likeButton={ACTION_BUTTONS.LIKE}
 									editButton={ACTION_BUTTONS.EDIT}
 									deleteButton={ACTION_BUTTONS.DELETE}
+									mutateAsync={mutateAsync}
+									likedTasks={likedTasks}
+									setLikedTasks={setLikedTasks}
 								/>
 							);
 						})
@@ -127,6 +76,9 @@ function TasksList() {
 				</div>
 			) : (
 				<p className="message">Cargando informacion</p>
+			)}
+			{error && (
+				<p className="message">Error al cargar informacion: {error}</p>
 			)}
 		</section>
 	);

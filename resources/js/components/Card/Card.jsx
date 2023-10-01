@@ -5,7 +5,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { FormField } from '../formField/FormField';
 import { showDialog } from '../Dialogs/Dialog';
+import { deleteTask, likeTask, updateTask } from '../../services/api/tasks';
 export const Card = ({
+	id,
 	title,
 	description,
 	date,
@@ -15,6 +17,9 @@ export const Card = ({
 	likeButton,
 	editButton,
 	deleteButton,
+	mutateAsync,
+	likedTasks,
+	setLikedTasks,
 }) => {
 	const schema = yup.object({
 		likes: yup
@@ -36,7 +41,7 @@ export const Card = ({
 			likes,
 		},
 	});
-	const [liked, setLiked] = useState(false);
+	const [liked, setLiked] = useState(likedTasks.includes(id));
 	const [isEditing, setIsEditing] = useState(false);
 
 	const successDialog = () => {
@@ -56,12 +61,11 @@ export const Card = ({
 	};
 
 	const onEdit = async (data) => {
-		console.log({ data });
-		const response = await new Promise((resolve) =>
-			setTimeout(resolve(true), 1000)
-		);
+		const response = await updateTask({ id, likes: data.likes });
 		if (response) {
-			//mutateAsync;
+			if (mutateAsync) {
+				await mutateAsync();
+			}
 			successDialog();
 			setIsEditing(false);
 		} else {
@@ -70,7 +74,6 @@ export const Card = ({
 	};
 	const onDelete = async () => {
 		if (likes > 0) {
-			//error toast likes
 			showDialog({
 				title: 'Error al eliminar',
 				text: 'No se puede eliminar si los likes son mayor a cero',
@@ -79,11 +82,11 @@ export const Card = ({
 			return;
 		}
 		const funcOnConfirm = async () => {
-			const response = await new Promise((resolve) =>
-				setTimeout(resolve, 1000)
-			);
+			const response = await deleteTask({ id });
 			if (response) {
-				//mutateAsync;
+				if (mutateAsync) {
+					await mutateAsync();
+				}
 				successDialog();
 			} else {
 				errorDialog();
@@ -103,12 +106,14 @@ export const Card = ({
 
 	const handleOnLikeClick = async () => {
 		setLiked(true);
-		const response = await new Promise((resolve) =>
-			setTimeout(resolve, 1000)
-		);
+		const response = await likeTask({ id });
 		if (response) {
-			//mutateAsync;
+			if (mutateAsync) {
+				await mutateAsync();
+			}
 			successDialog();
+			setLiked(true);
+			setLikedTasks((prev) => Array.from(new Set([...prev, id])));
 		} else {
 			errorDialog();
 			setLiked(false);

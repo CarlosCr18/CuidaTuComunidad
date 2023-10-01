@@ -20,5 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/tasks/message', [TaskController::class, 'message']);
 Route::get('/tasks', [TaskController::class, 'index']);
+Route::post('/tasks/create', [TaskController::class, 'create']);
+Route::patch('/tasks/delete/{id}', [TaskController::class, 'destroy']);
+Route::patch('/tasks/update/{id}', [TaskController::class, 'update']);
+Route::patch('/tasks/like/{id}', [TaskController::class, 'like']);

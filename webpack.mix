@@ -1,5 +1,7 @@
 const mix = require('laravel-mix');
 const path = require("path");
+require('dotenv').config();
+let webpack = require('webpack')
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,12 +13,23 @@ const path = require("path");
  |
  */
 
+let dotenvplugin = new webpack.DefinePlugin({
+    'process.env': {
+        APP_URL: JSON.stringify(process.env.APP_URL || 'http://localhost'),
+        PORT_HTTP: JSON.stringify(process.env.PORT_HTTP || '3000')
+    }
+})
+
  mix.webpackConfig({
     resolve: {
         alias: {
             "@": path.resolve(__dirname, "resources/js/"),
         },
     },
+    plugins: [
+        dotenvplugin,
+    ],
+
 });
 
 mix.js('resources/js/app.js', 'public/js')

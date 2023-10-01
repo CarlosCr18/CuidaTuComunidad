@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('creator');
             $table->integer('likes')->default(0);
             $table->boolean('is_deleted')->default(FALSE);
-            $table->timestamp("create_date")->useCurrent();
-            $table->timestamp("delete_date")->nullable();
+            $table->timestamp("created_at")->useCurrent();
+            $table->timestamp("updated_at")->nullable();
+            $table->timestamp("deleted_at")->nullable();
         });
     }
 
