@@ -9,4 +9,5 @@ class task extends Model
 {
     use HasFactory;
     public $table = "task";
+    protected $fillable = ['title', 'description', 'state', 'creator', 'likes'];
 }

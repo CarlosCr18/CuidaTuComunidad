@@ -7,6 +7,7 @@ import { showDialog } from '../Dialogs/Dialog.js';
 import { constants } from '../../assets/constants/index.js';
 import { FormSelect } from '../formSelect/FormSelect.jsx';
 import './CreateTaskCard.scss';
+import { createTask } from '../../services/api/tasks.js';
 
 export const CreateTaskCard = () => {
 	const navigate = useNavigate();
@@ -65,22 +66,32 @@ export const CreateTaskCard = () => {
 		navigate('/');
 	};
 	const onCreate = async (data) => {
-		console.log({ data });
-		const response = await new Promise((resolve) =>
-			setTimeout(resolve(true), 1000)
-		);
-		if (response) {
-			//mutateAsync;
-			showDialog({
-				title: 'Exito',
-				text: 'Exito al crear la tarea',
-				type: 'success',
-				funcOnConfirm: backToMain,
+		try {
+			const response = await createTask({
+				title: data.title,
+				description: data.description,
+				MXState: data.state,
+				creator: data.creator,
+				likes: data.likes,
 			});
-		} else {
+			if (response) {
+				showDialog({
+					title: 'Exito',
+					text: 'Exito al crear la tarea',
+					type: 'success',
+					funcOnConfirm: backToMain,
+				});
+			} else {
+				showDialog({
+					title: 'Error',
+					text: 'Error al crear la tarea',
+					type: 'error',
+				});
+			}
+		} catch (error) {
 			showDialog({
 				title: 'Error',
-				text: 'Error al crear la tarea',
+				text: error?.response?.data || error,
 				type: 'error',
 			});
 		}

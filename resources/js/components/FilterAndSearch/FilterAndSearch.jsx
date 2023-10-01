@@ -6,7 +6,7 @@ import './FilterAndSearch.scss';
 import { debounce } from 'lodash';
 
 const MXStates = Object.keys(constants.MXStates);
-export const FilterAndSearch = ({ setSearch, setState, search, state }) => {
+export const FilterAndSearch = ({ setSearch, setState, state }) => {
 	const handleStateChange = (e) => {
 		setState(e.target.value);
 	};
@@ -30,7 +30,6 @@ export const FilterAndSearch = ({ setSearch, setState, search, state }) => {
 				title={'Busqueda'}
 				register={() => {}}
 				onChange={debouncedSearch}
-				value={search}
 			/>
 			<FormSelect
 				title={'Estado'}
